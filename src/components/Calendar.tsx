@@ -9,6 +9,8 @@ import {
   isBefore,
   endOfDay,
   isToday,
+  addMonths,
+  subMonths,
 } from "date-fns";
 import "../styles.css";
 import { formatDate } from "../utils/formatDate";
@@ -26,16 +28,40 @@ const Calendar = () => {
     });
   }, [selectedMonth]);
 
+  function handleMovetoCurrentDate() {
+    setSelectedMonth(new Date());
+  }
+  function handleMovetoPreviousMonth() {
+    setSelectedMonth((m) => subMonths(m, 1));
+  }
+  function handleMoveToNextMonth() {
+    setSelectedMonth((m) => addMonths(m, 1));
+  }
+
   return (
     <>
       <div className="calendar">
         <div className="header">
-          <button className="btn">Today</button>
+          <button className="btn" onClick={handleMovetoCurrentDate}>
+            Today
+          </button>
           <div>
-            <button className="month-change-btn">&lt;</button>
-            <button className="month-change-btn">&gt;</button>
+            <button
+              className="month-change-btn"
+              onClick={handleMovetoPreviousMonth}
+            >
+              &lt;
+            </button>
+            <button
+              className="month-change-btn"
+              onClick={handleMoveToNextMonth}
+            >
+              &gt;
+            </button>
           </div>
-          <span className="month-title">March 2024</span>
+          <span className="month-title">
+            {formatDate(selectedMonth, { month: "long", year: "numeric" })}
+          </span>
         </div>
 
         <div className="days">

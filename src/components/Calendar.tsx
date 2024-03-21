@@ -7,6 +7,7 @@ import {
   eachDayOfInterval,
 } from "date-fns";
 import "../styles.css";
+import { formatDate } from "../utils/formatDate";
 
 const Calendar = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -33,8 +34,13 @@ const Calendar = () => {
         </div>
 
         <div className="days">
-          {calendarDays.map((day) => (
-            <CalendarDay key={day.getTime()} />
+          {calendarDays.map((day, index) => (
+            <CalendarDay
+              key={day.getTime()}
+              day={day}
+              showWeekName={index < 7}
+              selectedMonth={selectedMonth}
+            />
           ))}
         </div>
       </div>
@@ -44,16 +50,31 @@ const Calendar = () => {
 
 export default Calendar;
 
-const CalendarDay = () => {
+type CalendarDayProps = {
+  day: Date;
+  showWeekName: boolean;
+  selectedMonth: Date;
+};
+const CalendarDay = ({
+  day,
+  selectedMonth,
+  showWeekName,
+}: CalendarDayProps) => {
   return (
     <>
       <div className="day non-month-day old-month-day">
         <div className="day-header">
-          <div className="week-name">Sun</div>
-          <div className="day-number">28</div>
+          {showWeekName && (
+            <div className="week-name">
+              {formatDate(day, { weekday: "short" })}
+            </div>
+          )}
+          <div className="day-number">
+            {formatDate(day, { day: "numeric" })}
+          </div>
           <button className="add-event-btn">+</button>
         </div>
-        <div className="events">
+        {/* <div className="events">
           <button className="all-day-event blue event">
             <div className="event-name">Short</div>
           </button>
@@ -67,7 +88,7 @@ const CalendarDay = () => {
             <div className="event-time">7am</div>
             <div className="event-name">Event Name</div>
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );

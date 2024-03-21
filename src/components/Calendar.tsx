@@ -28,12 +28,17 @@ const Calendar = () => {
     });
   }, [selectedMonth]);
 
+  // Function to Move to current Date
   function handleMovetoCurrentDate() {
     setSelectedMonth(new Date());
   }
+
+  //Functon to move to Previous Month
   function handleMovetoPreviousMonth() {
     setSelectedMonth((m) => subMonths(m, 1));
   }
+
+  // Function to move to next Month
   function handleMoveToNextMonth() {
     setSelectedMonth((m) => addMonths(m, 1));
   }
